@@ -24,6 +24,5 @@ export async function  postLogin(c: Context) { // cria e exporta a função resp
             return c.json({ error: err.message }, err.status)
         }
         return c.json({ error: 'Erro ao processar autenticação.' }, 500)
-    }
-    
+    } 
 }
