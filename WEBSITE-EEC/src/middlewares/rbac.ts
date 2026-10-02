@@ -1,0 +1,43 @@
+import type { Context, Next } from 'hono' /**importa dois tipos do hono. ex. context  (representa a requisição e a resposta atual ) e next(representa o proximo middleware ou controller que deve ser executado) */
+import type { Role } from '../types/auth' /** Importa o tipo Role, que representa os papeis permitidos pelo sistema*/
+import { asseytUrl } from '../utisl/assets' /** Importa uma função que monta a URL correta dos arquivos estátiocs, como CSS*/
+
+/**
+ * Middleware RBAC (Role-Based Access Control).
+ * Garante que apemnas usuários com perfis autorizados acessem o recurso.
+ * O papel `super_admin` possui acesso universal a todas as funções dentro do espaço da Central EEC.
+*/
+export function requireRole(...allowedRoles: Role[]) { /**Crie uma proteçaõ que permita acesso apenas aos pápeis informados */
+    return async (c: Context, next: Next) => {
+        const user = c.get('user')
+        const role = c.get('role')
+
+        if (!user || !role) {
+            return c.json({ error: 'Acesso restrito: úsuario sem perfil homologado.'}, 403)
+        }
+
+        // Super admin possui acesso univesal a todos os modúlos autorizados
+        if (role === 'super_admin') {
+            return await next()
+        }
+
+        if (allowedRoles.includes(role)) {
+            return await next()
+        }
+
+        const accept = c.req.header('Accept') || ''
+        if (accept.includes('text/htmal')) {
+            return c.html(`
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>403 - Acesso Negado | Central EEC</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+                    <link rel="stylesheet" href="${assetUrl('/styles/tailwind.css')}">
+                    <link rel="stylesheet" href="${asseturl('/static/styles.com')}">
+                </head>
+                <body class="font-po`)
+        }
+    }
+}
