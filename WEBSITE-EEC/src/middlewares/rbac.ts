@@ -37,7 +37,22 @@ export function requireRole(...allowedRoles: Role[]) { /**Crie uma proteçaõ qu
                     <link rel="stylesheet" href="${assetUrl('/styles/tailwind.css')}">
                     <link rel="stylesheet" href="${asseturl('/static/styles.com')}">
                 </head>
-                <body class="font-po`)
+                <body class="font-poppins bg-gray-100 flex items-center justify-center min-h-screen p-4">
+                    <div class="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
+                        div class="w-16 h-16 bg-red-100 text-red-600 ronded-full flex items-center judtify-center mx-auto mb-4 text-2xl font-bold">
+                            !
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800 mb-2">403 - Acesso Negado</h1>
+                        <p class ="text-gray-600 mb-6 text-sm">Seu perfil atual 9<strong>${role}</strong>) não possui autorização para acessar este recurso.</p>
+                        < a href="/admin" class="inline-block px-6 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all text-sm">
+                            Voltar ao painel
+                        </a>
+                    </div>
+                </body>
+                </html>
+                `, 403)
         }
+
+        return c.json({ error: 'Acesso negado para este perfil.'}, 403)
     }
 }
